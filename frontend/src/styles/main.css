@@ -1,0 +1,266 @@
+/* ================================
+   THEME (Light Only)
+================================ */
+:root {
+  --bg: #f6f7fb;
+  --card: #fff;
+  --surface: #f9fafb;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #0fb8d3;
+  --primary-2: #2ec7e6;
+  --border: #e5e7eb;
+
+  --lot-avail-w: 100px;
+  --lot-action-w: 96px;
+}
+
+/* ================================
+   BASE
+================================ */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans;
+}
+
+a { color: #0ea5e9; text-decoration: none; }
+
+/* Containers & header */
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+.appbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.appbar nav a { margin-left: 12px; padding: 8px 10px; border-radius: 8px; border: 1px solid transparent; }
+.appbar nav a.active { background: #e6f8fb; border-color: #b6eef7; }
+
+/* ================================
+   LAYOUT
+================================ */
+.cis-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) 360px;
+  gap: 16px;
+}
+.cis-left, .cis-right { display: flex; flex-direction: column; gap: 16px; }
+.sticky { position: sticky; top: 12px; }
+
+/* ================================
+   COMPONENTS
+================================ */
+/* Card / Panel */
+.card,
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 1px 2px rgba(2, 6, 23, .04), 0 8px 24px rgba(2, 6, 23, .04);
+}
+.card { border-radius: 14px; padding: 24px 28px; }
+
+.panel__title {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  font-weight: 700; margin-bottom: 10px;
+}
+.panel__title--withbtn .btn { flex-shrink: 0; }
+.panel__actions { display: flex; justify-content: flex-end; margin-top: 15px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.tab {
+  padding: 8px 12px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); cursor: pointer;
+}
+.tab.active { background: #e6f8fb; border-color: #b6eef7; }
+
+/* Table */
+.table { width: 100%; border-collapse: separate; border-spacing: 0 6px; }
+.table th, .table td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; }
+
+/* Buttons */
+.btn {
+  background: linear-gradient(180deg, var(--primary), var(--primary-2));
+  color: #05323d; border: none; padding: 8px 12px; border-radius: 10px;
+  cursor: pointer; font-weight: 600;
+}
+.btn:disabled { filter: grayscale(.2) brightness(.98); box-shadow: none; }
+
+/* Form controls */
+.select, .input {
+  width: 100%; height: 40px; padding: 8px 10px;
+  border-radius: 10px; border: 1px solid var(--border);
+  background: #fff; color: var(--text);
+}
+.textarea {
+  width: 100%; min-height: 96px; resize: vertical;
+  background: #fff; color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px; padding: 10px;
+}
+.select:focus, .input:focus, .textarea:focus {
+  outline: none; border-color: #b6eef7; box-shadow: 0 0 0 3px rgba(15, 184, 211, .15);
+}
+
+/* Field */
+.field { display: flex; flex-direction: column; gap: 10px; }
+.field__label { font-size: .9rem; color: var(--muted); }
+
+/* Chips (scope preview) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip {
+  padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border);
+  background: #f5f7fa; color: #475569; font-size: .82rem;
+}
+.chip--on { background: #e6f8fb; border-color: #b6eef7; color: #0f172a; }
+
+/* Switch & badge */
+.switchline, .statusline { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
+.badge { padding: 4px 8px; border-radius: 999px; background: #eef2f7; border: 1px solid var(--border); font-size: .85rem; color: #334155; }
+.switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0; cursor: pointer; background: var(--border);
+  transition: .2s; border-radius: 24px;
+}
+.slider:before {
+  content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px;
+  background: #fff; border-radius: 50%; transition: .2s;
+}
+.switch input:checked + .slider { background: linear-gradient(180deg, var(--primary), var(--primary-2)); }
+.switch input:checked + .slider:before { transform: translateX(22px); }
+
+/* Menu (kebab) */
+.menu-wrap { position: relative; display: inline-block; }
+.menu-kebab {
+  background: #fff; border: 1px solid var(--border); color: var(--text);
+  width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+}
+.menu-pop {
+  position: absolute; right: 0; top: 38px; min-width: 160px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, .12); padding: 6px; z-index: 30;
+}
+.menu-pop > button {
+  width: 100%; text-align: left; background: transparent; color: var(--text);
+  border: none; padding: 8px 10px; border-radius: 8px; cursor: pointer;
+}
+.menu-pop > button:hover { background: #f3f4f6; }
+
+/* Setup */
+.setup-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  row-gap: 14px;
+  margin-bottom: 20px;
+}
+
+.setup-scope{
+  margin-top: 0;
+}
+
+.setup-scope .chips{
+  margin-top: 8px;
+}
+
+.field{ gap: 8px; }
+
+/* Search Lots */
+.filterbar{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(160px,1fr));
+  gap:14px;
+  align-items:end;
+}
+
+.filterbar > div{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.filterbar > div > label{
+  display:block;
+  font-size:.95rem;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.filterbar select,
+.filterbar .select,
+.filterbar .input{
+  margin-top:0;
+}
+.checkbox { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+.spinner { opacity: .8; }
+
+/* Order Information */
+.order-card {
+  border: 1px dashed #e9edf3; border-radius: 12px;
+  padding: 18px; margin-bottom: 14px; background: #fafafa;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.order-card .grid.three {
+  display: grid;
+  grid-template-columns: 1fr 220px auto;
+  column-gap: 16px; row-gap: 12px; align-items: start;
+}
+
+/* Lots section */
+.subblock { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.subblock__title { font-weight: 600; margin-bottom: 4px; }
+
+/* Lots editor */
+.lots-editor { display: flex; flex-direction: column; gap: 10px; }
+
+/* Header columns (desktop) */
+.lots-head {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr var(--lot-avail-w) var(--lot-action-w);
+  gap: 10px; margin: 6px 0; align-items: end;
+}
+.lots-head span { padding-left: 2px; color: #475569; font-weight: 600; font-size: .9rem; }
+
+/* Data row (desktop) */
+.lots-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr var(--lot-avail-w) var(--lot-action-w);
+  gap: 10px; align-items: center;
+}
+.lot-cell { display: flex; flex-direction: column; gap: 6px; }
+.lot-cell__label { display: none; color: #6b7280; font-size: .85rem; }
+
+/* ================================
+   HELPERS
+================================ */
+.header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.grid.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.align-end { display: flex; align-items: flex-end; }
+.mt-1 { margin-top: 6px; }
+.mt-2 { margin-top: 12px; }
+
+/* ================================
+   MEDIA QUERIES
+================================ */
+@media (max-width: 1080px) {
+  .cis-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .filterbar { grid-template-columns: 1fr 1fr; }
+  .order-card .grid.three { grid-template-columns: 1fr; }
+
+  .lots-head { display: none; }
+  .lots-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .lot-cell__label { display: block; }
+}
