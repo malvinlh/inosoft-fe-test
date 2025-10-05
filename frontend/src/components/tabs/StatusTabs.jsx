@@ -1,14 +1,19 @@
 export default function StatusTabs({ active, onChange }) {
-  const tabs = ['Open','For Review','Completed']
+  const tabs = ['Open', 'For Review', 'Completed']
+
   return (
-    <div className="tabs">
-      {tabs.map(t => (
-        <button
-          key={t}
-          className={`tab ${active===t?'active':''}`}
-          onClick={()=>onChange(t)}
-        >{t}</button>
+    <ul className="nav nav-tabs mb-3">
+      {tabs.map((t) => (
+        <li className="nav-item" key={t}>
+          <button
+            className={`nav-link ${active === t ? 'active' : ''}`}
+            onClick={() => onChange(t)}
+            type="button"
+          >
+            {t}
+          </button>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

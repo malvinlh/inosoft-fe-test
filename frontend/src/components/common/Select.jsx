@@ -1,7 +1,12 @@
-export default function Select({ value, onChange, children, ...rest }) {
+export default function Select({ value, onChange, children, className = '', ...rest }) {
   return (
-    <select className="select" value={value} onChange={onChange} {...rest}>
+    <select
+      className={`form-select ${className}`}
+      value={value}
+      onChange={onChange}
+      {...rest}
+    >
       {children}
     </select>
-  )
+  );
 }

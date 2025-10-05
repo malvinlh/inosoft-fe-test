@@ -1,3 +1,16 @@
-export default function Button({ children, ...rest }) {
-  return <button className="btn" {...rest}>{children}</button>
+export default function Button({ 
+  children, 
+  variant = 'primary',
+  size = '',
+  className = '',
+  ...rest 
+}) {
+  return (
+    <button 
+      className={`btn btn-${variant} ${size ? `btn-${size}` : ''} ${className}`} 
+      {...rest}
+    >
+      {children}
+    </button>
+  );
 }

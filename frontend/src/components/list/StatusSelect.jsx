@@ -1,9 +1,17 @@
-const OPTIONS = ['New','In Progress','Ready to Review','Completed'];
+const OPTIONS = ['New', 'In Progress', 'Ready to Review', 'Completed'];
 
-export default function StatusSelect({ value='New', onChange }) {
+export default function StatusSelect({ value = 'New', onChange, className = '' }) {
   return (
-    <select className="status-select" value={value} onChange={e=>onChange?.(e.target.value)}>
-      {OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+    <select
+      className={`form-select ${className}`}
+      value={value}
+      onChange={(e) => onChange?.(e.target.value)}
+    >
+      {OPTIONS.map((o) => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
     </select>
   );
 }

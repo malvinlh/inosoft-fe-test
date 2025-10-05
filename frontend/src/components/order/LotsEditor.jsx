@@ -9,7 +9,6 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
   }
 
   const chosen = new Set(rows.map(r => r.lotNo).filter(Boolean))
-
   const optionsForRow = (idx) => {
     const current = rows[idx]?.lotNo
     return lotsPool.filter(l => !chosen.has(l.lotNo) || l.lotNo === current)
@@ -23,7 +22,7 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
   return (
     <div className="lots-editor">
       <div className="lots-head">
-        <span style={{ flex: 2 }}>Lot</span>
+        <span className="head-lot">Lot</span>
         <span>Alloc</span>
         <span>Owner</span>
         <span>Cond</span>
@@ -32,9 +31,8 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
       </div>
 
       {rows.map((r, idx) => (
-        <div key={idx} className="lots-row">
-          <div className="lot-cell">
-            <span className="lot-cell__label">Lot</span>
+        <div key={idx} className="lots-row align-items-center">
+          <div className="lot-cell wide">
             <Select
               value={r.lotNo || ''}
               onChange={(e) => {
@@ -63,34 +61,31 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
             </Select>
           </div>
 
-          <div className="lot-cell">
-            <span className="lot-cell__label">Alloc</span>
+          <div className="lot-cell mid">
             <Input value={r.allocation || ''} onChange={(e) => changeRow(idx, { allocation: e.target.value })} />
           </div>
 
-          <div className="lot-cell">
-            <span className="lot-cell__label">Owner</span>
+          <div className="lot-cell mid">
             <Input value={r.owner || ''} onChange={(e) => changeRow(idx, { owner: e.target.value })} />
           </div>
 
-          <div className="lot-cell">
-            <span className="lot-cell__label">Cond</span>
+          <div className="lot-cell mid">
             <Input value={r.condition || ''} onChange={(e) => changeRow(idx, { condition: e.target.value })} />
           </div>
 
-          <div className="lot-cell">
-            <span className="lot-cell__label">Avail</span>
-            <Input value={r.availableQty ?? 0} readOnly />
+          <div className="lot-cell small">
+            <Input value={r.availableQty ?? 0} readOnly className="text-center" />
           </div>
 
-          <div className="lot-cell">
-            <span className="lot-cell__label">&nbsp;</span>
-            <Button type="button" onClick={() => removeRow(idx)}>Hapus</Button>
+          <div className="lot-cell action">
+            <Button type="button" variant="outline-danger" size="sm" onClick={() => removeRow(idx)}>
+              Hapus
+            </Button>
           </div>
         </div>
       ))}
 
-      <Button type="button" onClick={addRow}>
+      <Button type="button" variant="secondary" onClick={addRow} className="mt-2">
         Tambah Lot
       </Button>
     </div>
