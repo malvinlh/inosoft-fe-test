@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
-import InspectionsList from '../pages/InspectionsList'
-import CreateInspection from '../pages/CreateInspection'
-import InspectionDetail from '../pages/InspectionDetail'
+import InspectionsList from '../components/pages/InspectionsList'
+import CreateInspection from '../components/pages/CreateInspection'
+import InspectionDetail from '../components/pages/InspectionDetail'
 import App from '../App'
 
 export const router = createBrowserRouter([

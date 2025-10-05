@@ -93,13 +93,13 @@ class MockApiController extends Controller
         );
 
         $rateMap = [
-            'inspection-basic'   => ['code' => 'SVC-INSP', 'desc' => 'Inspection Service',   'price' => 15.0, 'uom' => 'pcs'],
-            'testing'            => ['code' => 'SVC-TST',  'desc' => 'Testing Service',      'price' => 20.0, 'uom' => 'pcs'],
-            'stenciling-marking' => ['code' => 'SVC-MRK',  'desc' => 'Stenciling & Marking', 'price' => 8.0,  'uom' => 'pcs'],
-            'refurbish'          => ['code' => 'SVC-REF',  'desc' => 'Refurbish - Cleaning', 'price' => 10.0, 'uom' => 'pcs'],
+            'inspection-basic'   => ['code' => 'SVC-INSP', 'desc' => 'Inspection Service',   'price' => 15.0, 'uom' => 'lot'],
+            'testing'            => ['code' => 'SVC-TST',  'desc' => 'Testing Service',      'price' => 20.0, 'uom' => 'lot'],
+            'stenciling-marking' => ['code' => 'SVC-MRK',  'desc' => 'Stenciling & Marking', 'price' => 8.0,  'uom' => 'lot'],
+            'refurbish'          => ['code' => 'SVC-REF',  'desc' => 'Refurbish - Cleaning', 'price' => 10.0, 'uom' => 'lot'],
         ];
 
-        $rate = $rateMap[$scopeId] ?? ['code' => 'SVC-GEN', 'desc' => 'General Service', 'price' => 10.0, 'uom' => 'pcs'];
+        $rate = $rateMap[$scopeId] ?? ['code' => 'SVC-GEN', 'desc' => 'General Service', 'price' => 10.0, 'uom' => 'lot'];
 
         if ($totalQty <= 0) {
             $totalQty = 1;

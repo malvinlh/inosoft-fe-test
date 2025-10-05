@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { bootstrapMeta } from './store/metaSlice'
-import Spinner from './components/common/Spinner'
-import Card from './components/common/Card'
+import Spinner from './components/atoms/Spinner'
+import Card from './components/atoms/Card'
 import './styles/custom.css' // pastikan diimpor
 
 export default function App() {
