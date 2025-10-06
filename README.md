@@ -125,7 +125,40 @@ npm run lint:fix
        ├── main.jsx                    # Entry point, mounts React app
        └── index.html                  # HTML template for Vite
    ```
-  
+- Backend
+   ```
+   backend/
+   ├── app/                           # Main Laravel application code (controllers, models, etc.)
+   │
+   ├── bootstrap/                     # Initializes and bootstraps the Laravel framework
+   │
+   ├── config/                        # Configuration files for services, database, and app settings
+   │
+   ├── database/                      # Database migrations, factories, and seeders
+   │
+   ├── public/                        # Publicly accessible directory (entry point for web requests)
+   │
+   ├── resources/                     # Views, language files, and frontend resources
+   │
+   ├── routes/                        # API and web route definitions (routes/web.php, routes/api.php)
+   │
+   ├── storage/                       # Local storage for mock data and logs
+   │   ├── app/
+   │   │   └── mock/api/              # JSON files simulating API responses
+   │   │       ├── dropdowns.json
+   │   │       ├── inspection_templates.json
+   │   │       ├── inspections.json
+   │   │       └── items.json
+   │   ├── private/                   # Private storage (not publicly accessible)
+   │   ├── public/                    # Public storage (accessible via symbolic link)
+   │   └── framework/                 # Cache, sessions, and compiled views
+   │
+   ├── logs/                          # Application and server logs
+   │
+   ├── tests/                         # Laravel test files (PHPUnit)
+   │
+   └── vendor/                        # Composer dependencies
+   ```
 3. Project Highlights
 - **Prefetching:** All dropdown data is loaded once on startup via Axios and stored in Redux. Further filtering is handled client-side.
 - **Atomic Design:** Components are structured in atoms → molecules → organisms → pages.
