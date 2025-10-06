@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { fetchInspection } from '../../store/inspectionSlice'
 import Card from '../atoms/Card'
+import Button from '../atoms/Button'
 import { toMap, lookup } from '../../utils/lookup'
 
 export default function InspectionDetail() {
@@ -64,7 +65,14 @@ export default function InspectionDetail() {
 
   return (
     <Card>
-      <h2 className="h4 mb-3">Detail Inspection</h2>
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h2 className="h4 m-0">Yard Services Details</h2>
+        <Link to="/" className="text-decoration-none">
+          <Button variant="secondary" className="w-100 d-sm-inline-block">
+            ← Back to List
+          </Button>
+        </Link>
+      </div>
 
       <section className="row g-3 mb-3">
         <div className="col-lg-9">

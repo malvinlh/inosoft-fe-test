@@ -47,7 +47,7 @@ export default function InspectionsList() {
   return (
     <Card>
       <div className="d-flex justify-content-between align-items-center mb-2">
-        <h2 className="h4 m-0">Inspections</h2>
+        <h2 className="h4 m-0">Inspection Record</h2>
         <Link to="/create">
           <Button variant="primary">Buat Baru</Button>
         </Link>
