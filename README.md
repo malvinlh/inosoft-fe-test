@@ -128,7 +128,7 @@ npm run lint:fix
 - Backend
    ```
    backend/
-   ├── app/                           # Main Laravel application code (controllers, models, etc.)
+   ├── app/                           # Main Laravel application code
    │
    ├── bootstrap/                     # Initializes and bootstraps the Laravel framework
    │
@@ -136,11 +136,11 @@ npm run lint:fix
    │
    ├── database/                      # Database migrations, factories, and seeders
    │
-   ├── public/                        # Publicly accessible directory (entry point for web requests)
+   ├── public/                        # Publicly accessible directory
    │
    ├── resources/                     # Views, language files, and frontend resources
    │
-   ├── routes/                        # API and web route definitions (routes/web.php, routes/api.php)
+   ├── routes/                        # API and web route definitions
    │
    ├── storage/                       # Local storage for mock data and logs
    │   ├── app/
@@ -149,13 +149,13 @@ npm run lint:fix
    │   │       ├── inspection_templates.json
    │   │       ├── inspections.json
    │   │       └── items.json
-   │   ├── private/                   # Private storage (not publicly accessible)
-   │   ├── public/                    # Public storage (accessible via symbolic link)
+   │   ├── private/                   # Private storage
+   │   ├── public/                    # Public storage
    │   └── framework/                 # Cache, sessions, and compiled views
    │
    ├── logs/                          # Application and server logs
    │
-   ├── tests/                         # Laravel test files (PHPUnit)
+   ├── tests/                         # Laravel test files
    │
    └── vendor/                        # Composer dependencies
    ```
