@@ -8,5 +8,5 @@ export default function Spinner({ label = 'Loading...', size = 'sm', className =
       />
       <span className="text-muted">{label}</span>
     </div>
-  );
+  )
 }

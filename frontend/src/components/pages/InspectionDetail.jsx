@@ -3,27 +3,51 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchInspection } from '../../store/inspectionSlice'
 import Card from '../atoms/Card'
+import { toMap, lookup } from '../../utils/lookup'
 
 export default function InspectionDetail() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const { selected } = useSelector(s => s.inspections);
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const { selected } = useSelector(s => s.inspections)
+  const { dropdowns, templates } = useSelector(s => s.meta)
 
-  useEffect(() => { dispatch(fetchInspection(id)); }, [dispatch, id]);
+  useEffect(() => { dispatch(fetchInspection(id)) }, [dispatch, id])
 
   const fmtDate = (v) =>
-    v ? new Date(v).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
+    v ? new Date(v).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' }) : '-'
 
-  const header    = selected?.header ?? {};
-  const createdAt = useMemo(() => fmtDate(selected?.createdAt), [selected?.createdAt]);
-  const estDate   = useMemo(() => fmtDate(header?.estimatedCompletionDate), [header?.estimatedCompletionDate]);
+  const header    = selected?.header ?? {}
+  const createdAt = useMemo(() => fmtDate(selected?.createdAt), [selected?.createdAt])
+  const estDate   = useMemo(() => fmtDate(header?.estimatedCompletionDate), [header?.estimatedCompletionDate])
+
+  const svcMap   = useMemo(() => toMap(dropdowns?.serviceTypes), [dropdowns])
+  const scopeMap = useMemo(() => toMap(dropdowns?.scopes), [dropdowns])
+
+  const tplForScope = useMemo(() => {
+    const all = templates?.templates || []
+    return all.find(t => t.id === selected?.scopeId) || null
+  }, [templates, selected?.scopeId])
+
+  const subsIndex = useMemo(() => {
+    if (!tplForScope) return {}
+    const idx = {}
+    for (const w of tplForScope.works || []) {
+      const labels = {}
+      for (const f of w.fields || []) labels[f.key] = f.label || f.key
+      idx[w.subscope_id] = { name: w.subscope_name || w.subscope_id, labels }
+    }
+    return idx
+  }, [tplForScope])
+
+  const getSubscopeName = (id) => subsIndex[id]?.name || id
+  const getFieldLabel   = (subId, key) => subsIndex[subId]?.labels?.[key] || key
 
   if (!selected) {
     return (
       <Card>
         <p className="text-muted mb-0">Loading...</p>
       </Card>
-    );
+    )
   }
 
   const statusVariant = ({
@@ -31,12 +55,12 @@ export default function InspectionDetail() {
     'In Progress': 'info',
     'Ready to Review': 'warning',
     'Completed': 'success'
-  })[selected.status] || 'secondary';
+  })[selected.status] || 'secondary'
 
   const chargeText =
     selected?.customer?.charge === 'ON'
       ? (selected?.customer?.name || 'ON')
-      : (selected?.customer?.name ? `${selected.customer.name} (OFF)` : 'OFF');
+      : (selected?.customer?.name ? `${selected.customer.name} (OFF)` : 'OFF')
 
   return (
     <Card>
@@ -52,7 +76,16 @@ export default function InspectionDetail() {
 
             <div className="col-md-4">
               <div className="text-muted">Service Type</div>
-              <div className="fw-semibold">{selected.serviceType || '-'}</div>
+              <div className="fw-semibold">
+                {selected.serviceType ? lookup(svcMap, selected.serviceType) : '-'}
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="text-muted">Scope</div>
+              <div className="fw-semibold">
+                {selected.scopeId ? lookup(scopeMap, selected.scopeId) : '-'}
+              </div>
             </div>
 
             <div className="col-md-4">
@@ -127,27 +160,24 @@ export default function InspectionDetail() {
           </thead>
           <tbody>
             {(selected.orderInformation || []).map((o, idx) => {
-              const lots = Array.isArray(o.lots) ? o.lots : [];
+              const lots = Array.isArray(o.lots) ? o.lots : []
               const show = (getter) =>
                 lots.length
-                  ? lots.map((l, i) => (
-                      <div key={i}>{getter(l) ?? '-'}</div>
-                    ))
-                  : '-';
+                  ? lots.map((l, i) => <div key={i}>{getter(l) ?? '-'}</div>)
+                  : '-'
 
               return (
                 <tr key={idx}>
                   <td>{o.item_code || '-'}</td>
                   <td>{o.item_desc || '-'}</td>
                   <td>{o.qtyRequired ?? 0}</td>
-
                   <td>{show((l) => l.lotNo)}</td>
                   <td>{show((l) => l.allocation)}</td>
                   <td>{show((l) => l.owner)}</td>
                   <td>{show((l) => l.condition)}</td>
                   <td>{show((l) => (l.availableQty ?? 0))}</td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
@@ -157,7 +187,9 @@ export default function InspectionDetail() {
       <div className="d-flex flex-column gap-3">
         {(selected.works?.subscopes || []).map((sc) => (
           <div key={sc.subscope_id} className="card">
-            <div className="card-header fw-semibold">{sc.subscope_id}</div>
+            <div className="card-header fw-semibold">
+              {getSubscopeName(sc.subscope_id)}
+            </div>
             <div className="card-body">
               {(sc.fields || []).map((f) => (
                 <div className="form-check mb-2" key={f.key}>
@@ -170,7 +202,7 @@ export default function InspectionDetail() {
                     readOnly
                   />
                   <label className="form-check-label" htmlFor={`w-${sc.subscope_id}-${f.key}`}>
-                    {f.key}
+                    {getFieldLabel(sc.subscope_id, f.key)}
                   </label>
                 </div>
               ))}
@@ -195,11 +227,11 @@ export default function InspectionDetail() {
           <tbody>
             {(selected.charges || []).length > 0 ? (
               selected.charges.map((c, i) => {
-                const qty   = Number(c.qty) || 0;
-                const price = Number(c.price) || 0;
-                const unit  = (c.uom || 'pcs').toUpperCase();
-                const cur   = (c.currency || 'USD').toUpperCase();
-                const total = qty * price;
+                const qty   = Number(c.qty) || 0
+                const price = Number(c.price) || 0
+                const unit  = (c.uom || 'pcs').toUpperCase()
+                const cur   = (c.currency || 'USD').toUpperCase()
+                const total = qty * price
 
                 return (
                   <tr key={i}>
@@ -210,7 +242,7 @@ export default function InspectionDetail() {
                     <td>{`${cur} $${price.toFixed(2)}`}</td>
                     <td>{`${cur} $${total.toFixed(2)}`}</td>
                   </tr>
-                );
+                )
               })
             ) : (
               <tr>

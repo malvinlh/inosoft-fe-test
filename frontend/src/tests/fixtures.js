@@ -17,7 +17,7 @@ export const itemsFixture = [
       { lotNo: 'LOT-ZZ-123', allocation: 'Unallocated', owner: 'ONSHORE', condition: 'damaged', availableQty: 5 }
     ]
   }
-];
+]
 
 export const dropdownsFixture = {
   serviceTypes: [
@@ -32,7 +32,7 @@ export const dropdownsFixture = {
   owners: [{ id: 'owner-offshore', name: 'OFFSHORE' }],
   allocations: [{ id: 'alloc-unallocated', name: 'Unallocated' }],
   conditions: [{ id: 'cond-good', name: 'good' }]
-};
+}
 
 export const templatesFixture = {
   templates: [
@@ -52,11 +52,11 @@ export const templatesFixture = {
       ]
     }
   ]
-};
+}
 
 export const inspectionsListFixture = [
   { id:'INSP-1', no:'INSP-1', status:'New',            serviceType:'new-arrival', scopeId:'inspection-basic', createdAt: new Date().toISOString() },
   { id:'INSP-2', no:'INSP-2', status:'In Progress',    serviceType:'maintenance', scopeId:'refurbish',        createdAt: new Date().toISOString() },
   { id:'INSP-3', no:'INSP-3', status:'Ready to Review',serviceType:'on-spot',     scopeId:'testing',          createdAt: new Date().toISOString() },
   { id:'INSP-4', no:'INSP-4', status:'Completed',      serviceType:'new-arrival', scopeId:'inspection-basic', createdAt: new Date().toISOString() }
-];
+]

@@ -1,4 +1,4 @@
-const OPTIONS = ['New', 'In Progress', 'Ready to Review', 'Completed'];
+const OPTIONS = ['New', 'In Progress', 'Ready to Review', 'Completed']
 
 export default function StatusSelect({ value = 'New', onChange, className = '' }) {
   return (
@@ -13,5 +13,5 @@ export default function StatusSelect({ value = 'New', onChange, className = '' }
         </option>
       ))}
     </select>
-  );
+  )
 }

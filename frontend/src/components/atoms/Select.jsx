@@ -8,5 +8,5 @@ export default function Select({ value, onChange, children, className = '', ...r
     >
       {children}
     </select>
-  );
+  )
 }

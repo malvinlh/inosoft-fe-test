@@ -6,5 +6,5 @@ export default function Card({ title, children, className = '' }) {
         {children}
       </div>
     </div>
-  );
+  )
 }

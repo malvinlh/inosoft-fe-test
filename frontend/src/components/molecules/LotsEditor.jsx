@@ -33,6 +33,7 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
       {rows.map((r, idx) => (
         <div key={idx} className="lots-row align-items-center">
           <div className="lot-cell wide">
+            <div className="small text-muted d-md-none mb-1">Lot</div>
             <Select
               value={r.lotNo || ''}
               onChange={(e) => {
@@ -42,12 +43,12 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
                   idx,
                   selected
                     ? {
-                        lotNo: selected.lotNo,
-                        allocation: selected.allocation,
-                        owner: selected.owner,
-                        condition: selected.condition,
-                        availableQty: Number(selected.availableQty) || 0,
-                      }
+                      lotNo: selected.lotNo,
+                      allocation: selected.allocation,
+                      owner: selected.owner,
+                      condition: selected.condition,
+                      availableQty: Number(selected.availableQty) || 0,
+                    }
                     : { lotNo: '', allocation: '', owner: '', condition: '', availableQty: 0 }
                 )
               }}
@@ -62,22 +63,27 @@ export default function LotsEditor({ lotsPool = [], rows = [], onChange }) {
           </div>
 
           <div className="lot-cell mid">
+            <div className="small text-muted d-md-none mb-1">Alloc</div>
             <Input value={r.allocation || ''} onChange={(e) => changeRow(idx, { allocation: e.target.value })} />
           </div>
 
           <div className="lot-cell mid">
+            <div className="small text-muted d-md-none mb-1">Owner</div>
             <Input value={r.owner || ''} onChange={(e) => changeRow(idx, { owner: e.target.value })} />
           </div>
 
           <div className="lot-cell mid">
+            <div className="small text-muted d-md-none mb-1">Cond</div>
             <Input value={r.condition || ''} onChange={(e) => changeRow(idx, { condition: e.target.value })} />
           </div>
 
           <div className="lot-cell small">
+            <div className="small text-muted d-md-none mb-1">Avail</div>
             <Input value={r.availableQty ?? 0} readOnly className="text-center" />
           </div>
 
           <div className="lot-cell action">
+            <div className="small text-muted d-md-none mb-1">Action</div>
             <Button type="button" variant="outline-danger" size="sm" onClick={() => removeRow(idx)}>
               Hapus
             </Button>

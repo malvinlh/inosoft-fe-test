@@ -7,7 +7,6 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx)$': ['@swc/jest', {
       jsc: {
-        // ⟵ aktifkan parser JSX
         parser: { syntax: 'ecmascript', jsx: true },
         target: 'es2020',
         transform: {

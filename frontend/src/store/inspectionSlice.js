@@ -22,10 +22,10 @@ const inspectionSlice = createSlice({
   reducers: {},
   extraReducers: (b) => {
     b.addCase(fetchInspections.pending, (s)=>{ s.status='loading' })
-     .addCase(fetchInspections.fulfilled, (s,a)=>{ s.status='succeeded'; s.list=a.payload })
-     .addCase(fetchInspections.rejected, (s,a)=>{ s.status='failed'; s.error=a.error?.message })
-     .addCase(fetchInspection.fulfilled, (s,a)=>{ s.selected = a.payload })
-     .addCase(postInspection.fulfilled, (s,a)=>{ s.list.unshift(a.payload) })
+      .addCase(fetchInspections.fulfilled, (s,a)=>{ s.status='succeeded'; s.list=a.payload })
+      .addCase(fetchInspections.rejected, (s,a)=>{ s.status='failed'; s.error=a.error?.message })
+      .addCase(fetchInspection.fulfilled, (s,a)=>{ s.selected = a.payload })
+      .addCase(postInspection.fulfilled, (s,a)=>{ s.list.unshift(a.payload) })
   }
 })
 

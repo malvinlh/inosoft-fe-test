@@ -1,10 +1,10 @@
 export default function StatusTabs({ active, onChange, forReviewCount = 0 }) {
-  const tabs = ['Open', 'For Review', 'Completed'];
+  const tabs = ['Open', 'For Review', 'Completed']
 
   return (
     <ul className="nav nav-tabs mb-3">
       {tabs.map((t) => {
-        const isActive = active === t;
+        const isActive = active === t
         return (
           <li key={t} className="nav-item">
             <button
@@ -20,8 +20,8 @@ export default function StatusTabs({ active, onChange, forReviewCount = 0 }) {
               )}
             </button>
           </li>
-        );
+        )
       })}
     </ul>
-  );
+  )
 }

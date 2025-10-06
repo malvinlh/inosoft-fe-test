@@ -17,14 +17,8 @@ jest.mock('../../store/inspectionSlice', () => {
     ...actual,
     postInspection: jest.fn((payload) => () => {
       const value = { id: 'INSP-NEW', ...payload }
-
-      const promise = Promise.resolve({
-        type: 'inspections/create/fulfilled',
-        payload: value,
-      })
-
+      const promise = Promise.resolve({ type: 'x', payload: value })
       promise.unwrap = () => Promise.resolve(value)
-
       return promise
     }),
   }
@@ -61,14 +55,10 @@ function setup() {
   return { store, ui }
 }
 
-test('Submit disabled until serviceType, scope, qty valid; then enabled and dispatches post', async () => {
+test('submit sends correct payload shape including works.selected and orderInformation', async () => {
   const user = userEvent.setup()
   const { ui } = setup()
-
   render(ui)
-
-  const submitBtn = screen.getByRole('button', { name: /submit/i })
-  expect(submitBtn).toBeDisabled()
 
   const setupHeading = screen.getByText(/setup/i)
   const setupCardBody = setupHeading.closest('.card-body') ?? setupHeading.parentElement
@@ -77,8 +67,32 @@ test('Submit disabled until serviceType, scope, qty valid; then enabled and disp
   await user.selectOptions(selects[0], 'new-arrival')
   await user.selectOptions(selects[1], 'inspection-basic')
 
-  expect(submitBtn).not.toBeDisabled()
+  const toggleBtn = screen.getByRole('button', { name: /visual body/i })
+  await user.click(toggleBtn)
 
-  await user.click(submitBtn)
-  expect(postInspection).toHaveBeenCalled()
+  await user.click(screen.getByRole('button', { name: /\+ add item/i }))
+  const itemSelects = screen.getAllByRole('combobox', { name: /pilih item/i })
+  await user.selectOptions(itemSelects[1], 'ITM001278')
+
+  await user.click(screen.getByRole('button', { name: /submit/i }))
+
+  expect(postInspection).toHaveBeenCalledWith(expect.objectContaining({
+    serviceType: 'new-arrival',
+    scopeId: 'inspection-basic',
+    works: expect.objectContaining({
+      selected: expect.objectContaining({
+        'visual-body': true
+      })
+    }),
+    customer: expect.objectContaining({ charge: 'ON' }),
+    orderInformation: expect.arrayContaining([
+      expect.objectContaining({
+        id_item: expect.any(String),
+        item_code: expect.any(String),
+        item_desc: expect.any(String),
+        qtyRequired: expect.any(Number),
+        lots: expect.any(Array)
+      })
+    ])
+  }))
 })

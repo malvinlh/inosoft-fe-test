@@ -6,10 +6,12 @@ import StatusTabs from '../organisms/StatusTabs'
 import { Link } from 'react-router-dom'
 import Card from '../atoms/Card'
 import Button from '../atoms/Button'
+import { toMap, lookup } from '../../utils/lookup'
 
 export default function InspectionsList() {
   const dispatch = useDispatch()
   const { list, status } = useSelector((s) => s.inspections)
+  const { dropdowns } = useSelector((s) => s.meta)
   const [active, setActive] = useState('Open')
 
   useEffect(() => { dispatch(fetchInspections()) }, [dispatch])
@@ -24,7 +26,10 @@ export default function InspectionsList() {
   const forReviewCount = useMemo(
     () => (list || []).filter(x => FOR_REVIEW.has(x.status)).length,
     [list]
-  );
+  )
+
+  const svcMap   = useMemo(() => toMap(dropdowns?.serviceTypes), [dropdowns])
+  const scopeMap = useMemo(() => toMap(dropdowns?.scopes), [dropdowns])
 
   const badgeVariant = (st) => ({
     'New': 'secondary',
@@ -80,8 +85,8 @@ export default function InspectionsList() {
                           {it.status}
                         </span>
                       </td>
-                      <td>{it.serviceType}</td>
-                      <td>{it.scopeId}</td>
+                      <td>{lookup(svcMap, it.serviceType)}</td>
+                      <td>{lookup(scopeMap, it.scopeId)}</td>
                       <td>{header.location || '-'}</td>
                       <td>{fmtDate(it.createdAt)}</td>
                       <td>{fmtDateOnly(header.estimatedCompletionDate)}</td>

@@ -277,7 +277,7 @@ export default function CreateInspection() {
 
           <div className="card mb-2">
             <div className="card-body">
-              <div className="d-flex align-items-center justify-content-between mb-2">
+              <div className="order-header mb-2">
                 <div className="card-title h6 m-0">Order Information</div>
                 <Button type="button" variant="secondary" onClick={addOrder}>
                   + Add Item
