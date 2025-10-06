@@ -10,70 +10,70 @@ A single-page React application for managing inspection workflows, built with **
 ## Setup
 
 ### 1. Prerequisites
-Make sure the following are installed:
-- [Node.js](https://nodejs.org/en/download) **v22.20.0 (LTS)** or newer — includes npm.
-- [Laravel 12](https://laravel.com/docs/12.x/installation) if you want to run the dummy backend API. The frontend itself does not require a real database connection.
+   Make sure the following are installed:
+   - [Node.js](https://nodejs.org/en/download) **v22.20.0 (LTS)** or newer — includes npm.
+   - [Laravel 12](https://laravel.com/docs/12.x/installation) if you want to run the dummy backend API. The frontend itself does not require a real database connection.
 
 ### 2. Clone the Repository
-```
-git clone https://github.com/malvinlh/inosoft-fe-test.git
-cd frontend
-```
+   ```
+   git clone https://github.com/malvinlh/inosoft-fe-test.git
+   cd frontend
+   ```
 
 ### 3. Install Dependencies
-Install all packages listed in `package.json`:
-```
-npm install
-```
-This will automatically install all runtime and development dependencies, including:
-- React 19, React DOM
-- Redux Toolkit, React Redux
-- React Router DOM 7
-- Axios
-- Bootstrap 5
-- Vite 7
-- Jest, Testing Library, and @swc/jest for unit tests
-- ESLint for linting and code style checks
+   Install all packages listed in `package.json`:
+   ```
+   npm install
+   ```
+   This will automatically install all runtime and development dependencies, including:
+   - React 19, React DOM
+   - Redux Toolkit, React Redux
+   - React Router DOM 7
+   - Axios
+   - Bootstrap 5
+   - Vite 7
+   - Jest, Testing Library, and @swc/jest for unit tests
+   - ESLint for linting and code style checks
 
 ## How to Run
 
 ### 1. Start the Backend
-```
-cd backend
-php artisan serve
-```
+   ```
+   cd backend
+   php artisan serve
+   ```
 
 ### 2. Run the Frontend Development Server
-In a separate terminal:
-```
-cd frontend
-npm run dev
-```
-The app will start on http://localhost:5173
+   In a separate terminal:
+   ```
+   cd frontend
+   npm run dev
+   ```
+   The app will start on http://localhost:5173
 
 ### 3. Build for Production
-```
-npm run build
-```
-The production-ready output will be located in the `/dist` directory. To preview the production build:
-```
-npm run preview
-```
+   ```
+   npm run build
+   ```
+   The production-ready output will be located in the `/dist` directory. To preview the production build:
+   ```
+   npm run preview
+   ```
 
 ### 4. Run Unit Tests
-```
-npm run test
-```
+   ```
+   npm run test
+   ```
 
 ### 5. Linting and Code Quality
-Check for lint issues:
-```
-npm run lint
-```
-Auto-fix issues:
-```
-npm run lint:fix
-```
+   Check for lint issues:
+   ```
+   npm run lint
+   ```
+   Auto-fix issues:
+   ```
+   npm run lint:fix
+   ```
 
 ---
 
@@ -88,7 +88,43 @@ npm run lint:fix
    - Testing: Jest + Testing Library
    - Linter: ESLint
    - Transpiler: SWC (@swc/jest)
-2. Project Structure
+2. Project Structure (Simplified)
+   - Frontend
+      ```
+      frontend/
+      └── src/
+          ├── api/                        # Handles API communication and mock endpoints
+          │
+          ├── assets/                     # Static assets (images, icons, etc.)
+          │
+          ├── components/                 # React components following Atomic Design
+          │   ├── atoms/                  # Smallest UI elements (buttons, inputs, etc.)
+          │   ├── molecules/              # Combinations of atoms forming small modules
+          │   ├── organisms/              # Larger UI blocks made of molecules
+          │   └── pages/                  # Page-level components (main views)
+          │
+          ├── router/                     # React Router configuration
+          │
+          ├── store/                      # Redux slices and store setup
+          │
+          ├── styles/                     # Global styles
+          │
+          ├── tests/                      # Unit and integration tests
+          │   ├── api/                    # Tests for API functions
+          │   ├── components/             # Tests for components
+          │   ├── pages/                  # Tests for page-level components
+          │   ├── store/                  # Tests for Redux slices
+          │   ├── utils/                  # Tests for utility functions
+          │   ├── fixtures.js             # Mock data for tests
+          │   ├── setupTests.js           # Jest setup and environment configuration
+          │   └── styleMock.js            # Mock for CSS imports in Jest
+          │
+          ├── utils/                      # Helper functions and mappers
+          │
+          ├── App.jsx                     # Root React component
+          ├── main.jsx                    # Entry point, mounts React app
+          └── index.html                  # HTML template for Vite
+      ```
 3. Project Highlights
    - **Prefetching:** All dropdown data is loaded once on startup via Axios and stored in Redux. Further filtering is handled client-side.
    - **Atomic Design:** Components are structured in atoms → molecules → organisms → pages.
