@@ -70,8 +70,10 @@ function setup() {
 
 test('renders header, order, scope and charges sections', () => {
   setup()
+  
+  expect(screen.getByRole('heading', { name: /yard services details/i })).toBeInTheDocument();
 
-  expect(screen.getByText(/detail inspection/i)).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: /back to list/i })).toHaveAttribute('href', '/');
   expect(screen.getByText('INSP-X')).toBeInTheDocument()
   expect(screen.getByText('YRD-02')).toBeInTheDocument()
 
