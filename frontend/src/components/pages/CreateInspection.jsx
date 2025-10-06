@@ -23,6 +23,13 @@ export default function CreateInspection() {
   const [chargeToCustomer, setChargeToCustomer] = useState(true)
   const [note, setNote] = useState('')
 
+  const [headerExtras, setHeaderExtras] = useState({
+    location: '',
+    estimatedCompletionDate: '',
+    relatedTo: '',
+    dcCode: ''
+  })
+
   const [orderRows, setOrderRows] = useState([{ item: null, qtyRequired: 1, lots: [] }])
 
   const [criteria, setCriteria] = useState({ lotNo: null, allocation: null, owner: null, condition: null })
@@ -66,7 +73,13 @@ export default function CreateInspection() {
       scopeId,
       works: { template_name: scopeTemplate?.template_name, selected: worksState },
       customer: { ...customer, charge: chargeToCustomer ? 'ON' : 'OFF' },
-      header: { notes: note },
+      header: {
+        notes: note,
+        location: headerExtras.location,
+        estimatedCompletionDate: headerExtras.estimatedCompletionDate,
+        relatedTo: headerExtras.relatedTo,
+        dcCode: headerExtras.dcCode
+      },
       orderInformation: orderRows.map(r => ({
         id_item: r.item?.id_item,
         item_code: r.item?.item_code,
@@ -118,7 +131,7 @@ export default function CreateInspection() {
                   />
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-6 mt-0">
                   <label className="form-label">Customer Name</label>
                   <Input
                     className="form-control"
@@ -127,7 +140,7 @@ export default function CreateInspection() {
                   />
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-6 mt-0">
                   <label className="form-label">Customer Ref</label>
                   <Input
                     className="form-control"
@@ -136,7 +149,47 @@ export default function CreateInspection() {
                   />
                 </div>
 
-                <div className="col-12">
+                <div className="col-md-6 mt-3">
+                  <label className="form-label">Location</label>
+                  <Input
+                    className="form-control"
+                    placeholder="Enter location"
+                    value={headerExtras.location}
+                    onChange={(e) => setHeaderExtras({ ...headerExtras, location: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-md-6 mt-3">
+                  <label className="form-label">Estimated Completion Date</label>
+                  <Input
+                    type="date"
+                    className="form-control"
+                    value={headerExtras.estimatedCompletionDate}
+                    onChange={(e) => setHeaderExtras({ ...headerExtras, estimatedCompletionDate: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-md-6 mt-4">
+                  <label className="form-label">Related To</label>
+                  <Input
+                    className="form-control"
+                    placeholder="Reference number / project"
+                    value={headerExtras.relatedTo}
+                    onChange={(e) => setHeaderExtras({ ...headerExtras, relatedTo: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-md-6 mt-4">
+                  <label className="form-label">D/C Code</label>
+                  <Input
+                    className="form-control"
+                    placeholder="Optional internal code"
+                    value={headerExtras.dcCode}
+                    onChange={(e) => setHeaderExtras({ ...headerExtras, dcCode: e.target.value })}
+                  />
+                </div>
+
+                <div className="col-12 mt-4">
                   <label className="form-label mb-2">Scope Included</label>
                   <div className="d-flex flex-wrap gap-2">
                     {scopeTemplate ? (
@@ -247,7 +300,7 @@ export default function CreateInspection() {
                       </div>
 
                       <div className="field-like">
-                        <label className="form-label">Qty Required*</label>
+                        <label className="form-label">Qty Required<span className="text-danger">*</span></label>
                         <Input
                           type="number"
                           min="1"

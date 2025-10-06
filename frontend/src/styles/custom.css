@@ -34,7 +34,7 @@
   font-weight: 600;
 }
 
-/* Scrollbar gutter stabil */
+/* Scrollbar gutter */
 html { scrollbar-gutter: stable both-edges; }
 @supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
 
@@ -67,6 +67,11 @@ main { margin-top: 1.5rem; padding-bottom: .8rem; }
   height: 40px;
   padding-top: 8px;
   padding-bottom: 8px;
+}
+.order-card{
+  border-top: 1px solid #d1d5db;
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
 @media (max-width: 720px){
   .order-grid{ grid-template-columns: 1fr; }
@@ -115,13 +120,6 @@ main { margin-top: 1.5rem; padding-bottom: .8rem; }
     border-radius: 10px;
     background: #fff;
   }
-}
-
-/* Order Information */
-.order-card{
-  border-top: 1px solid #d1d5db;
-  padding-top: 1rem;
-  margin-top: 1rem;
 }
 
 /* Charge & Status */

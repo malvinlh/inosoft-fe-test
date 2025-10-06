@@ -8,6 +8,7 @@ use App\Support\JsonFile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class MockApiController extends Controller
 {
@@ -93,25 +94,45 @@ class MockApiController extends Controller
         );
 
         $rateMap = [
-            'inspection-basic'   => ['code' => 'SVC-INSP', 'desc' => 'Inspection Service',   'price' => 15.0, 'uom' => 'lot'],
-            'testing'            => ['code' => 'SVC-TST',  'desc' => 'Testing Service',      'price' => 20.0, 'uom' => 'lot'],
-            'stenciling-marking' => ['code' => 'SVC-MRK',  'desc' => 'Stenciling & Marking', 'price' => 8.0,  'uom' => 'lot'],
-            'refurbish'          => ['code' => 'SVC-REF',  'desc' => 'Refurbish - Cleaning', 'price' => 10.0, 'uom' => 'lot'],
+            'inspection-basic'   => ['code' => 'SVC-INSP', 'desc' => 'Inspection Service',   'price' => 15.0, 'uom' => 'pcs', 'currency' => 'USD'],
+            'testing'            => ['code' => 'SVC-TST',  'desc' => 'Testing Service',      'price' => 20.0, 'uom' => 'pcs', 'currency' => 'USD'],
+            'stenciling-marking' => ['code' => 'SVC-MRK',  'desc' => 'Stenciling & Marking', 'price' =>  8.0, 'uom' => 'pcs', 'currency' => 'USD'],
+            'refurbish'          => ['code' => 'SVC-REF',  'desc' => 'Refurbish - Cleaning', 'price' => 10.0, 'uom' => 'pcs', 'currency' => 'USD'],
         ];
 
-        $rate = $rateMap[$scopeId] ?? ['code' => 'SVC-GEN', 'desc' => 'General Service', 'price' => 10.0, 'uom' => 'lot'];
+        $rate = $rateMap[$scopeId] ?? ['code' => 'SVC-GEN', 'desc' => 'General Service', 'price' => 10.0, 'uom' => 'pcs', 'currency' => 'USD'];
 
         if ($totalQty <= 0) {
             $totalQty = 1;
         }
 
         return [[
-            'code'  => $rate['code'],
-            'desc'  => $rate['desc'],
-            'qty'   => $totalQty,
-            'uom'   => $rate['uom'],
-            'price' => $rate['price'],
+            'code'     => $rate['code'],
+            'desc'     => $rate['desc'],
+            'qty'      => $totalQty,
+            'uom'      => $rate['uom'],
+            'price'    => $rate['price'],
+            'currency' => $rate['currency'],
         ]];
+    }
+
+    private function nextInspectionId(array $list, \DateTimeInterface $now): string
+    {
+        $year = $now->format('Y');
+        $last = 0;
+
+        foreach ($list as $row) {
+            $no = $row['no'] ?? $row['id'] ?? '';
+            if (preg_match('/^INSP-(\d{4})-(\d{4})$/', $no, $m) === 1 && $m[1] === $year) {
+                $num = (int) $m[2];
+                if ($num > $last) {
+                    $last = $num;
+                }
+            }
+        }
+
+        $next = $last + 1;
+        return sprintf('INSP-%s-%04d', $year, $next);
     }
 
     public function createInspection(Request $req): JsonResponse
@@ -126,13 +147,17 @@ class MockApiController extends Controller
             'charges'          => 'nullable|array',
         ]);
 
-        $now   = now();
-        $newId = 'INSP-' . $now->format('Ymd-His');
+        $now = now();
 
-        $selectedMap      = Arr::get($data, 'works.selected', []);
-        $worksNormalized  = $this->buildWorksFromSelection($data['scopeId'], is_array($selectedMap) ? $selectedMap : []);
-        $orderInfo        = $data['orderInformation'] ?? [];
-        $charges          = $data['charges'] ?? $this->buildChargesFromOrder($data['scopeId'], $orderInfo);
+        $all  = JsonFile::read(self::INSPECTIONS);
+        $list = Arr::get($all, 'inspections', []);
+
+        $newId = $this->nextInspectionId($list, $now);
+
+        $selectedMap     = Arr::get($data, 'works.selected', []);
+        $worksNormalized = $this->buildWorksFromSelection($data['scopeId'], is_array($selectedMap) ? $selectedMap : []);
+        $orderInfo       = $data['orderInformation'] ?? [];
+        $charges         = $data['charges'] ?? $this->buildChargesFromOrder($data['scopeId'], $orderInfo);
 
         $new = array_merge([
             'id'        => $newId,
@@ -146,10 +171,8 @@ class MockApiController extends Controller
         $new['works']   = $worksNormalized;
         $new['charges'] = $charges;
 
-        $all                 = JsonFile::read(self::INSPECTIONS);
-        $list                = Arr::get($all, 'inspections', []);
         array_unshift($list, $new);
-        $all['inspections']  = $list;
+        $all['inspections'] = $list;
 
         JsonFile::writeAtomic(self::INSPECTIONS, $all);
 

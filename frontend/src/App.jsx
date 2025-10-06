@@ -4,7 +4,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import { bootstrapMeta } from './store/metaSlice'
 import Spinner from './components/atoms/Spinner'
 import Card from './components/atoms/Card'
-import './styles/custom.css' // pastikan diimpor
+import './styles/custom.css'
 
 export default function App() {
   const dispatch = useDispatch()
